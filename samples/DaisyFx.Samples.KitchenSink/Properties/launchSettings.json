@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "DaisyFx.Samples.KitchenSink": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

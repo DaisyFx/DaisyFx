@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>dotnet-DaisyFx.Samples.KitchenSink-A6BD68E6-6811-4707-B041-2DAC8EE4F43D</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\DaisyFx.NCrontab\DaisyFx.NCrontab.csproj" />
+      <ProjectReference Include="..\..\src\DaisyFx\DaisyFx.csproj" />
+    </ItemGroup>
+</Project>

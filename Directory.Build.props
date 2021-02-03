@@ -1,0 +1,20 @@
+<Project>
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Nullable>enable</Nullable>
+        <LangVersion>9.0</LangVersion>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <NoWarn>$(NoWarn);CS1591;NU5105</NoWarn>
+        <!-- versioning, overriden in ci -->
+        <VersionPrefix>0.0.1</VersionPrefix>
+        <!-- nuget -->
+        <IncludeSymbols>false</IncludeSymbols>
+        <DebugType>embedded</DebugType>
+        <Authors>DaisyFx</Authors>
+        <PackageProjectUrl>https://github.com/DaisyFx/DaisyFx</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/DaisyFx/DaisyFx</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageReleaseNotes>https://github.com/DaisyFx/DaisyFx/releases/tag/$(Version)</PackageReleaseNotes>
+    </PropertyGroup>
+</Project>

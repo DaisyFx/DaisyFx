@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  release:
+    types:
+      - published # a release, pre-release, or draft of a release is published
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DAISYVERSION: '0.0.1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.100'
+      - name: Set release version
+        if: github.event_name == 'release'
+        run: echo "DAISYVERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+      - name: Build
+        run: dotnet build --configuration Release -p:Version=$DAISYVERSION
+      - name: Test
+        run: dotnet test --no-build --configuration Release
+      - name: Publish release to MyGet
+        if: github.event_name == 'release'
+        run: dotnet nuget push "**/DaisyFx.*$DAISYVERSION.nupkg" --api-key ${{ secrets.MYGET_API_KEY }} --source https://www.myget.org/F/daisyfx/api/v2/package

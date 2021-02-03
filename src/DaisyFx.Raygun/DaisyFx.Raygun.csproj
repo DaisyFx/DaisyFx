@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Description>Raygun exception handlers for DaisyFx</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Mindscape.Raygun4Net.NetCore" Version="6.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DaisyFx\DaisyFx.csproj" />
+    </ItemGroup>
+
+</Project>

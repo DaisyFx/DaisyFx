@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Description>NCrontab source for DaisyFx</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ncrontab" Version="3.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DaisyFx\DaisyFx.csproj" />
+    </ItemGroup>
+</Project>
