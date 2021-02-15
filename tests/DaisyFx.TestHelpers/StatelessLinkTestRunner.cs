@@ -11,7 +11,7 @@ namespace DaisyFx.TestHelpers
             using var context = CreateContext(Services, ct);
             using ILink<TInput, TOutput> link = CreateLink(context.ScopeServices);
 
-            return await link.Invoke(input, context);
+            return await link.ExecuteAsync(input, context);
         }
     }
 }

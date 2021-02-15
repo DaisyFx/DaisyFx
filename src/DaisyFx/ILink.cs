@@ -5,6 +5,6 @@ namespace DaisyFx
 {
     public interface ILink<in TInput, TOutput> : IDisposable
     {
-        ValueTask<TOutput> Invoke(TInput input, ChainContext context);
+        ValueTask<TOutput> ExecuteAsync(TInput input, ChainContext context);
     }
 }

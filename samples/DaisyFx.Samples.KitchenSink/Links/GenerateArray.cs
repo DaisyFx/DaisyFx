@@ -12,7 +12,7 @@ namespace DaisyFx.Samples.KitchenSink.Links
             _config = ReadConfiguration<GenerateArrayOptions>();
         }
 
-        protected override ValueTask<int[]> Invoke(string input, ChainContext context)
+        protected override ValueTask<int[]> ExecuteAsync(string input, ChainContext context)
         {
             return new(Enumerable.Range(_config.Start, _config.Count).ToArray());
         }

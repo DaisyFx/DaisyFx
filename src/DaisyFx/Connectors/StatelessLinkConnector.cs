@@ -19,7 +19,7 @@ namespace DaisyFx.Connectors
         protected override async ValueTask<TOutput> ProcessAsync(TInput input, ChainContext context)
         {
             using var link = InstanceFactory.Create<TLink>(context.ScopeServices, _context);
-            return await link.Invoke(input, context);
+            return await link.ExecuteAsync(input, context);
         }
     }
 

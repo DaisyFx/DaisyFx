@@ -17,7 +17,7 @@ namespace DaisyFx.Connectors
 
         protected override ValueTask<TOutput> ProcessAsync(TInput input, ChainContext context)
         {
-            return _link.Invoke(input, context);
+            return _link.ExecuteAsync(input, context);
         }
 
         protected override void Dispose()

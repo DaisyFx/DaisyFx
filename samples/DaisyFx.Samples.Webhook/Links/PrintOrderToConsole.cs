@@ -8,7 +8,7 @@ namespace DaisyFx.Samples.Webhook.Links
 {
     public class PrintOrderToConsole : StatefulLink<Order, Order>
     {
-        protected override ValueTask<Order> Invoke(Order input, ChainContext context)
+        protected override ValueTask<Order> ExecuteAsync(Order input, ChainContext context)
         {
             var builder = new StringBuilder();
             builder.AppendLine($"OrderDate: {input.OrderDate.ToString(CultureInfo.InvariantCulture)}");

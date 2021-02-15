@@ -15,7 +15,7 @@ namespace DaisyFx.Samples.LoanBroker.Links
             _configuration = ReadConfiguration<GetLoanInquiryConfiguration>();
         }
 
-        protected override async ValueTask<LoanInquiry> Invoke(Signal input, ChainContext context)
+        protected override async ValueTask<LoanInquiry> ExecuteAsync(Signal input, ChainContext context)
         {
             return await _loanService.GetLoanInquiryAsync(_configuration.MaxAgeDays, context.CancellationToken);
         }
