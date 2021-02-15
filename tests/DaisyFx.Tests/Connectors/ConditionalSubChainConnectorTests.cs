@@ -23,10 +23,10 @@ namespace DaisyFx.Tests.Connectors
             var chainBuilder = new TestChain<string>
             {
                 ConfigureRootAction = root => root
-                    .Conditional(payload1.Equals, builder => builder
+                    .If(payload1.Equals, then => then
                         .TestInspect(onProcess: (input, _) => result1.Add(input))
                     )
-                    .Conditional(payload2.Equals, builder => builder
+                    .If(payload2.Equals, then => then
                         .TestInspect(onProcess: (input, _) => result2.Add(input))
                     )
             };
@@ -53,7 +53,7 @@ namespace DaisyFx.Tests.Connectors
             var chainBuilder = new TestChain<string>
             {
                 ConfigureRootAction = root => root
-                    .Conditional(payload.Equals, builder => builder
+                    .If(payload.Equals, then => then
                         .Link<NoopLink<string>, string>()
                     )
                     .TestInspect(onProcess: (input, _) => result.Add(input))
@@ -72,7 +72,7 @@ namespace DaisyFx.Tests.Connectors
             var chainBuilder = new TestChain<Signal>
             {
                 ConfigureRootAction = root => root
-                    .Conditional(_ => true, builder => builder
+                    .If(_ => true, then => then
                         .TestInspect(onDispose: () => subChainDisposed = true)
                     )
             };

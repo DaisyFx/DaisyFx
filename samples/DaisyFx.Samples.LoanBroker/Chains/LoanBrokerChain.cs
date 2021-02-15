@@ -17,7 +17,7 @@ namespace DaisyFx.Samples.LoanBroker.Chains
         {
             root.Link<GetLoanInquiry, LoanInquiry>()
                 .Link<CreateLoanApplication, LoanApplication>()
-                .Conditional(CreditScoreIsBad, builder => builder
+                .If(CreditScoreIsBad, then => then
                     .Link<DenyLoan, Signal>()
                     .Complete("Denied")
                 )
