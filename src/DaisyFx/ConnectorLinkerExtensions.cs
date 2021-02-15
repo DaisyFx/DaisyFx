@@ -24,7 +24,7 @@ namespace DaisyFx
             parent.Link(connector);
         }
 
-        public static IConnectorLinker<T> Conditional<T>(this IConnectorLinker<T> parent, Predicate<T> predicate, Action<IConnectorLinker<T>> buildChain)
+        public static IConnectorLinker<T> If<T>(this IConnectorLinker<T> parent, Predicate<T> predicate, Action<IConnectorLinker<T>> buildChain)
         {
             var connector = new ConditionalSubChainConnector<T>(predicate, buildChain, parent.Context);
             parent.Link(connector);

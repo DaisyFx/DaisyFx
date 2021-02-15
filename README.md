@@ -186,7 +186,7 @@ Used to represent a message without any data flowing through a chain.
 - [Link](#Link)
 - [Map](#Map)
 - [SubChain](#SubChain)
-- [Conditional](#Conditional)
+- [If](#If)
 - [Each](#Each)
 
 ### Link
@@ -266,12 +266,12 @@ public static class DivisionSubChain
 }
 ```
 
-### Conditional
+### If
 
 A control flow which executes the sub-chain if the predicate evaluates to true.
 
 ```
-root.Conditional(IsDivisibleBy3, then => then
+root.If(IsDivisibleBy3, then => then
         .Map(_ => "Value was divisible by 3")
         .Link<ConsoleWriteLine, string>());
 ```
