@@ -8,6 +8,11 @@ namespace DaisyFx.Samples.LoanBroker.Chains
     {
         public override string Name { get; } = "LoanBroker";
 
+        public override void ConfigureSources(SourceConnectorCollection<Signal> sources)
+        {
+            sources.Add<NCrontabSource>("Cron");
+        }
+
         public override void ConfigureRootConnector(IConnectorLinker<Signal> root)
         {
             root.Link<GetLoanInquiry, LoanInquiry>()
@@ -18,11 +23,6 @@ namespace DaisyFx.Samples.LoanBroker.Chains
                 )
                 .Link<CreateLoanContract, LoanContract>()
                 .Link<ApproveLoan, Signal>();
-        }
-
-        public override void ConfigureSources(SourceConnectorCollection<Signal> sources)
-        {
-            sources.Add<NCrontabSource>("Cron");
         }
 
         private static bool CreditScoreIsBad(LoanApplication application)

@@ -22,14 +22,14 @@ namespace DaisyFx.Tests.Utils.Chains
             return LockStrategy ?? base.CreateLockStrategy();
         }
 
-        public override void ConfigureRootConnector(IConnectorLinker<T> root)
-        {
-            ConfigureRootAction?.Invoke(root);
-        }
-
         public override void ConfigureSources(SourceConnectorCollection<T> sources)
         {
             ConfigureSourcesAction?.Invoke(sources);
+        }
+
+        public override void ConfigureRootConnector(IConnectorLinker<T> root)
+        {
+            ConfigureRootAction?.Invoke(root);
         }
     }
 }

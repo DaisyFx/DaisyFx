@@ -20,6 +20,11 @@ public class ExampleChain : ChainBuilder<Signal>
 {
     public override string Name { get; } = "ExampleChain";
 
+    public override void ConfigureSources(SourceConnectorCollection<Signal> sources)
+    {
+        sources.Add<NCrontabSource>("Cron");
+    }
+
     public override void ConfigureRootConnector(IConnectorLinker<Signal> root)
     {
         root.Link<GetDataRecords, DataRecord[]>()
@@ -28,11 +33,6 @@ public class ExampleChain : ChainBuilder<Signal>
                 .Link<PersistRecord, RecordModel>()
                 .Link<SendEmail, RecordMoadel>()
             );
-    }
-
-    public override void ConfigureSources(SourceConnectorCollection<Signal> sources)
-    {
-        sources.Add<NCrontabSource>("Cron");
     }
 
     private static RecordModel[] MapRecords(DataRecord[] input)
@@ -57,6 +57,11 @@ public class ExampleChain : ChainBuilder<Signal>
 {
     public override string Name { get; } = "ExampleChain";
 
+    public override void ConfigureSources(SourceConnectorCollection<Signal> sources)
+    {
+        sources.Add<NCrontabSource, Signal>("Cron");
+    }
+
     public override void ConfigureRootConnector(IConnectorLinker<Signal> root)
     {
         root.Map(_ => 
@@ -64,11 +69,6 @@ public class ExampleChain : ChainBuilder<Signal>
                 Console.WriteLine("Creating string");
                 return "Hey";
             });
-    }
-
-    public override void ConfigureSources(SourceConnectorCollection<Signal> sources)
-    {
-        sources.Add<NCrontabSource, Signal>("Cron");
     }
 }
 ```

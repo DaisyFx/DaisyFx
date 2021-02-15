@@ -4,14 +4,14 @@ namespace DaisyFx.Tests.Sources.HttpSource
     {
         public override string Name { get; } = "Test";
 
-        public override void ConfigureRootConnector(IConnectorLinker<HttpTestPayload> root)
-        {
-            root.Map(x => x);
-        }
-
         public override void ConfigureSources(SourceConnectorCollection<HttpTestPayload> sources)
         {
             sources.Add<HttpTestSource>("http");
+        }
+
+        public override void ConfigureRootConnector(IConnectorLinker<HttpTestPayload> root)
+        {
+            root.Map(x => x);
         }
     }
 }

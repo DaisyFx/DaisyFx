@@ -8,14 +8,14 @@ namespace DaisyFx.Samples.Webhook
     {
         public override string Name { get; } = "Order";
 
-        public override void ConfigureRootConnector(IConnectorLinker<Order> root)
-        {
-            root.Link<PrintOrderToConsole, Order>();
-        }
-
         public override void ConfigureSources(SourceConnectorCollection<Order> sources)
         {
             sources.Add<OrderHttpSource>("Http");
+        }
+
+        public override void ConfigureRootConnector(IConnectorLinker<Order> root)
+        {
+            root.Link<PrintOrderToConsole, Order>();
         }
     }
 }

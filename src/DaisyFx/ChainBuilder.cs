@@ -9,8 +9,8 @@ namespace DaisyFx
         public abstract string Name { get; }
 
         public virtual ILockStrategy CreateLockStrategy() => NoLockStrategy.Static;
-        public abstract void ConfigureRootConnector(IConnectorLinker<T> root);
         public abstract void ConfigureSources(SourceConnectorCollection<T> sources);
+        public abstract void ConfigureRootConnector(IConnectorLinker<T> root);
 
         IChain IChainBuilder.BuildChain(IServiceProvider serviceProvider)
         {
