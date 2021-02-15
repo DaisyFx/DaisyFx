@@ -10,6 +10,12 @@ namespace DaisyFx.Samples.KitchenSink
     {
         public override string Name { get; } = "KitchenSink";
 
+        public override void ConfigureSources(SourceConnectorCollection<string> sources)
+        {
+            sources.Add<DateTimeStringSource>("DateTimeStringSource");
+            sources.Add<NCrontabSource, Signal>("Cron", _ => DateTime.Now.ToString(CultureInfo.InvariantCulture));
+        }
+
         public override void ConfigureRootConnector(IConnectorLinker<string> root)
         {
             root.Conditional(string.IsNullOrEmpty, _ => _
@@ -30,12 +36,6 @@ namespace DaisyFx.Samples.KitchenSink
                         )))
                 .Link<StringToDateTime, DateTime>()
                 .Link<LogDateTime, DateTime>();
-        }
-
-        public override void ConfigureSources(SourceConnectorCollection<string> sources)
-        {
-            sources.Add<DateTimeStringSource>("DateTimeStringSource");
-            sources.Add<NCrontabSource, Signal>("Cron", _ => DateTime.Now.ToString(CultureInfo.InvariantCulture));
         }
 
         private static bool IsDivisibleBy3(int input)
