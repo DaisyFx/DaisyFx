@@ -15,9 +15,9 @@ namespace DaisyFx
 
         protected T ReadConfiguration<T>() where T : new() => _context.ReadConfiguration<T>();
 
-        ValueTask<TOutput> ILink<TInput, TOutput>.Invoke(TInput input, ChainContext context) => Invoke(input, context);
+        ValueTask<TOutput> ILink<TInput, TOutput>.ExecuteAsync(TInput input, ChainContext context) => ExecuteAsync(input, context);
 
-        protected abstract ValueTask<TOutput> Invoke(TInput input, ChainContext context);
+        protected abstract ValueTask<TOutput> ExecuteAsync(TInput input, ChainContext context);
 
         void IDisposable.Dispose()
         {
