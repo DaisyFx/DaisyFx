@@ -18,20 +18,20 @@ namespace DaisyFx.Samples.KitchenSink
 
         public override void ConfigureRootConnector(IConnectorLinker<string> root)
         {
-            root.Conditional(string.IsNullOrEmpty, _ => _
+            root.If(string.IsNullOrEmpty, _ => _
                     .Complete("Payload is empty"))
                 .SubChain(subChain => subChain
                     .Link<GenerateArray, int[]>("GenerateArray")
                     .Each(each => each
-                        .Conditional(IsDivisibleBy3, then => then
+                        .If(IsDivisibleBy3, then => then
                             .Map(_ => "Fizz")
                             .Link<LogInformation<string>, string>()
                         )
-                        .Conditional(IsDivisibleBy5, then => then
+                        .If(IsDivisibleBy5, then => then
                             .Map(_ => "Buzz")
                             .Link<LogInformation<string>, string>()
                         )
-                        .Conditional(i => !IsDivisibleBy3(i) && !IsDivisibleBy5(i), then => then
+                        .If(i => !IsDivisibleBy3(i) && !IsDivisibleBy5(i), then => then
                             .Link<LogInformation<int>, int>()
                         )))
                 .Link<StringToDateTime, DateTime>()
