@@ -13,7 +13,7 @@ namespace DaisyFx.Samples.KitchenSink.Links
             _configuration = ReadConfiguration<LogDateTimeConfiguration>();
         }
 
-        protected override ValueTask<DateTime> Invoke(DateTime input, ChainContext context)
+        protected override ValueTask<DateTime> ExecuteAsync(DateTime input, ChainContext context)
         {
             context.Logger.LogInformation(input.ToString(_configuration.DateFormat));
             return new ValueTask<DateTime>();

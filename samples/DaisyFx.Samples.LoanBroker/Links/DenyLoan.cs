@@ -13,7 +13,7 @@ namespace DaisyFx.Samples.LoanBroker.Links
             _loanService = loanService;
         }
 
-        protected override async ValueTask<Signal> Invoke(LoanApplication loan, ChainContext context)
+        protected override async ValueTask<Signal> ExecuteAsync(LoanApplication loan, ChainContext context)
         {
             await _loanService.DenyLoanAsync(loan, context.CancellationToken);
             return Signal.Static;

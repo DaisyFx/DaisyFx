@@ -191,7 +191,7 @@ Used to represent a message without any data flowing through a chain.
 
 ### Link
 
-A link is re-usable asynchronous step, its `Invoke` method is called with the input from the previous step. The link then returns the value that should be passed to the next step in the chain.
+A link is re-usable asynchronous step, its `ExecuteAsync` method is called with the input from the previous step. The link then returns the value that should be passed to the next step in the chain.
 
 Links can be either stateful or stateless:
 - `StatefulLink` is instantiated once and the same instance is used for each execution, therefore they can hold state between executions but has to be thread-safe
@@ -207,7 +207,7 @@ public class IntToString : StatefulLink<int, string>
 {
     private long _totalValueSeen = 0;
     
-    protected override ValueTask Invoke(int input, ChainContext context)
+    protected override ValueTask ExecuteAsync(int input, ChainContext context)
     {
         var newTotal = Interlocked.Add(ref _totalValueSeen, input);
         context.Logger.LogInformation($"I've seen a total value of {newTotal}");

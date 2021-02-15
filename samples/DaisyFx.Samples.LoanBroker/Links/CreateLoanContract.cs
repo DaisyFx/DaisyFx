@@ -15,7 +15,7 @@ namespace DaisyFx.Samples.LoanBroker.Links
             _bankService = bankService;
         }
 
-        protected override async ValueTask<LoanContract> Invoke(LoanApplication input, ChainContext context)
+        protected override async ValueTask<LoanContract> ExecuteAsync(LoanApplication input, ChainContext context)
         {
             var quotes = await _bankService.GetLoanQuotesAsync(input.Amount, input.LoanDuration, input.CreditScore,
                 context.CancellationToken);
