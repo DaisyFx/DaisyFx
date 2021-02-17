@@ -31,7 +31,7 @@ public class ExampleChain : ChainBuilder<Signal>
             .Map(MapRecords)
             .Each(each => each
                 .Link<PersistRecord, RecordModel>()
-                .Link<SendEmail, RecordMoadel>()
+                .Link<SendEmail, RecordModel>()
             );
     }
 
