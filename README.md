@@ -235,7 +235,7 @@ root.Map(input =>
 
 ### SubChain
 
-Allows you to branch the chain to a separate data flow. SubChains are executed sequently, in other words, the parent chain will wait for the sub-chain to be completed before continuing.
+Allows you to branch the chain to a separate data flow. SubChains are executed sequentially, in other words, the parent chain will wait for the sub-chain to be completed before continuing.
 
 ```csharp
 root.SubChain(subChain => subChain
