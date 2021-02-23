@@ -88,7 +88,7 @@ services.AddDaisy(Configuration, d =>
 - [Source](#Source)
 - [Connector](#Connector)
 - [ChainContext](#ChainContext)
-- [LockingStrategy](#LockingStrategy)
+- [LockStrategy](#LockStrategy)
 - [Signal](#Signal)
 
 ### Chain
@@ -161,9 +161,9 @@ Access an ILogger to perform logging.
 context.Logger.LogInformation("Example log message");
 ```
 
-### LockingStrategy
+### LockStrategy
 
-Used to throttle simultaneous execution of a chain, preventing it from becoming overloaded. Without an explicit locking strategy set, there is no defined limit on concurrent executions.
+Used to throttle simultaneous execution of a chain, preventing it from becoming overloaded. Without an explicit lock strategy set, there is no defined limit on concurrent executions.
 
 #### SharedLockStrategy
 
