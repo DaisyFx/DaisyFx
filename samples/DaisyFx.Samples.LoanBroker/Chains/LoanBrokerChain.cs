@@ -17,17 +17,18 @@ namespace DaisyFx.Samples.LoanBroker.Chains
         {
             root.Link<GetLoanInquiry, LoanInquiry>()
                 .Link<CreateLoanApplication, LoanApplication>()
-                .If(CreditScoreIsBad, then => then
+                .If(application => !CreditScoreIsValid(application), then => then
                     .Link<DenyLoan, Signal>()
-                    .Complete("Denied")
                 )
-                .Link<CreateLoanContract, LoanContract>()
-                .Link<ApproveLoan, Signal>();
+                .If(CreditScoreIsValid, then => then
+                    .Link<CreateLoanContract, LoanContract>()
+                    .Link<ApproveLoan, Signal>()
+                );
         }
 
-        private static bool CreditScoreIsBad(LoanApplication application)
+        private static bool CreditScoreIsValid(LoanApplication application)
         {
-            return application.CreditScore < 700;
+            return application.CreditScore >= 700;
         }
     }
 }
