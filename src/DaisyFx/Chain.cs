@@ -83,27 +83,27 @@ namespace DaisyFx
             _logger.Executing();
 
             using var context = new ChainContext(Name, _serviceProvider, cancellationToken);
+
             try
             {
                 context.EventBroker.Publish(new ChainExecutionStartedEvent(context));
 
                 var startTickCount = Environment.TickCount64;
-                await _root.ProcessAsync(input, context);
+                var result = await ExecuteRootConnector(input, context);
                 var duration = TimeSpan.FromMilliseconds(Environment.TickCount64 - startTickCount);
 
-                if (context.Result == ExecutionResult.Unknown)
+                LogResult(result);
+
+                if (result is {Status: ExecutionResultStatus.Faulted, Exception: {}})
                 {
-                    context.SetResult(ExecutionResult.Completed);
-                }
-                else if (context.Exception is { } exception)
-                {
-                    await context.EventBroker.PublishAsync(new ChainExceptionEvent(context, exception));
+                    await context.EventBroker.PublishAsync(new ChainExceptionEvent(context, result.Exception));
                 }
 
-                context.EventBroker.Publish(new ChainExecutionResultEvent(context, duration, context.Result,
-                    context.ResultReason, context.Exception));
+                context.EventBroker.Publish(new ChainExecutionResultEvent(context, duration, result));
 
                 LockStrategy.ReleaseLock();
+
+                return result;
             }
             catch (Exception e)
             {
@@ -115,9 +115,35 @@ namespace DaisyFx
                 {
                     Environment.Exit(2013);
                 }
-            }
 
-            return context.Result;
+                return ExecutionResult.Faulted(e);
+            }
+        }
+
+        private void LogResult(ExecutionResult result)
+        {
+            switch (result)
+            {
+                case {Status: ExecutionResultStatus.Completed}:
+                    _logger.ExecutionCompleted();
+                    break;
+                case {Status: ExecutionResultStatus.Faulted, Exception: {} exception}:
+                    _logger.ExecutionFaulted(exception);
+                    break;
+            }
+        }
+
+        private async ValueTask<ExecutionResult> ExecuteRootConnector(T input, ChainContext context)
+        {
+            try
+            {
+                await _root.ProcessAsync(input, context);
+                return ExecutionResult.Completed;
+            }
+            catch(Exception exception)
+            {
+                return ExecutionResult.Faulted(exception);
+            }
         }
 
         public void Dispose()

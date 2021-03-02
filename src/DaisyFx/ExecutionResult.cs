@@ -1,9 +1,23 @@
+using System;
+
 namespace DaisyFx
 {
-    public enum ExecutionResult
+    public class ExecutionResult
     {
-        Unknown,
-        Completed,
-        Faulted
+        public static readonly ExecutionResult Completed = new(ExecutionResultStatus.Completed);
+
+        private ExecutionResult(ExecutionResultStatus status, Exception? exception = null)
+        {
+            Status = status;
+            Exception = exception;
+        }
+
+        public ExecutionResultStatus Status { get; }
+        public Exception? Exception { get; }
+
+        public static ExecutionResult Faulted(Exception exception)
+        {
+            return new(ExecutionResultStatus.Faulted, exception);
+        }
     }
 }

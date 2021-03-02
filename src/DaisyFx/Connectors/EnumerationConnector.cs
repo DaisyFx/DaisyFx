@@ -21,9 +21,6 @@ namespace DaisyFx.Connectors
                 context.CancellationToken.ThrowIfCancellationRequested();
 
                 await _connector.ProcessAsync(input[i], context);
-
-                if (context.Result != ExecutionResult.Unknown)
-                    break;
             }
 
             return input;

@@ -52,7 +52,11 @@ namespace DaisyFx.Tests.Events
 
             await chainBuilder.BuildAndExecuteAsync(Signal.Static, default, serviceProvider);
 
-            Assert.Single(eventTracker.TrackedEvents, e => e.Result == ExecutionResult.Completed);
+            Assert.Single(eventTracker.TrackedEvents,
+                e => e.Result is
+                {
+                    Status: ExecutionResultStatus.Completed
+                });
         }
 
         [Fact]
@@ -74,7 +78,12 @@ namespace DaisyFx.Tests.Events
 
             await chainBuilder.BuildAndExecuteAsync(Signal.Static, default, serviceProvider);
 
-            Assert.Single(eventTracker.TrackedEvents, e => e.Result == ExecutionResult.Faulted);
+            Assert.Single(eventTracker.TrackedEvents,
+                e => e.Result is
+                {
+                    Status: ExecutionResultStatus.Faulted,
+                    Exception: ConnectorException
+                });
         }
     }
 }

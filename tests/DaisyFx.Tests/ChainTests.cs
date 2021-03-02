@@ -173,7 +173,7 @@ namespace DaisyFx.Tests
 
             var executionResult = await chain.ExecuteAsync(Signal.Static, cancellationSource.Token);
 
-            Assert.Equal(ExecutionResult.Faulted, executionResult);
+            Assert.Equal(ExecutionResultStatus.Faulted, executionResult.Status);
             Assert.Single(result);
         }
 
@@ -272,6 +272,33 @@ namespace DaisyFx.Tests
             var indexes = chain.Connectors.Select(c => c.Index);
 
             Assert.Equal(new[] {0, 1, 2}, indexes);
+        }
+
+        [Fact]
+        public async Task ExecuteAsync_WithThrowingConnector_ReturnsWrappedException()
+        {
+            var chainBuilder = new TestChain<Signal>
+            {
+                ConfigureRootAction = root =>
+                    root.SubChain(subChain => subChain
+                        .Link<ThrowingLink<Signal>, Signal>()
+                    )
+            };
+            var chain = await chainBuilder.BuildAsync();
+            var throwingConnector = chain.Connectors[1];
+
+            var result = await chain.ExecuteAsync(Signal.Static, CancellationToken.None);
+
+            Assert.True(
+                result is
+                {
+                    Status: ExecutionResultStatus.Faulted,
+                    Exception: ConnectorException
+                    {
+                        InnerException: TestException,
+                        Connector: {} connector,
+                    }
+                } && connector.Equals(throwingConnector));
         }
     }
 }

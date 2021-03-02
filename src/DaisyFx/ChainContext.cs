@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using DaisyFx.Events;
-using DaisyFx.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -29,9 +28,6 @@ namespace DaisyFx
         internal IServiceProvider ApplicationServices { get; }
         internal EventBroker EventBroker { get; }
         internal IServiceProvider ScopeServices => _serviceScope.ServiceProvider;
-        internal ExecutionResult Result { get; private set; }
-        internal string? ResultReason { get; private set; }
-        internal Exception? Exception { get; private set; }
 
         public string ChainName { get; }
         public Guid Id { get; }
@@ -74,30 +70,6 @@ namespace DaisyFx
                         disposable.Dispose();
                     }
                 }
-            }
-        }
-
-        internal void SetResult(ExecutionResult result, Exception? exception = null, string? reason = null)
-        {
-            if(result == ExecutionResult.Unknown)
-                throw new ArgumentOutOfRangeException(nameof(result), result, "Invalid state transition");
-
-            if(Result != ExecutionResult.Unknown)
-                throw new NotSupportedException($"Context is already completed with result: {Result}");
-
-            Result = result;
-            Exception = exception;
-            ResultReason = reason;
-
-            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-            switch (Result)
-            {
-                case ExecutionResult.Faulted:
-                    Logger.Failed(ResultReason, Exception);
-                    break;
-                case ExecutionResult.Completed:
-                    Logger.RanToCompletion(ResultReason, Exception);
-                    break;
             }
         }
     }
