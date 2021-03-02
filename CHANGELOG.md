@@ -4,10 +4,25 @@
 
 ### Breaking Changes
 
+- Expand `ExecutionResult` ([#11](https://github.com/DaisyFx/DaisyFx/pull/11))
+
+  ExecutionResult is now a class consisting of:
+  - `Status`: Set to Completed or Faulted
+  - `Exception`: Set when faulted
+
+- Remove properties in `ChainExecutionResultEvent` ([#11](https://github.com/DaisyFx/DaisyFx/pull/11))
+
+  - Removed `ResultReason`, no longer available
+  - Removed `Exception`, now available in `ExecutionResult`
+
+- Remove `.Complete` connector ([#11](https://github.com/DaisyFx/DaisyFx/pull/11))
+
+  Chains can no longer be completed mid-execution
+
 - Rename conditional sub-chains ([#3](https://github.com/DaisyFx/DaisyFx/pull/3))
-    
+
   The api for conditional sub-chains has been renamed from `.Conditional` to `.If`
-  
+
   Before:
   ```csharp
   root.Conditional(IsDivisibleBy3, then => then
