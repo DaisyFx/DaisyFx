@@ -28,8 +28,8 @@ namespace DaisyFx
         IServiceCollection IDaisyServiceCollection.ServiceCollection => _serviceCollection;
         IConfiguration IDaisyServiceCollection.Configuration => _configuration;
 
-        public DaisyServiceCollection AddHostMode<THostInterface>(string alias,
-            Action<DaisyServiceCollection, IServiceCollection, IConfiguration> configureServices)
+        public IDaisyServiceCollection AddHostMode<THostInterface>(string alias,
+            Action<IDaisyServiceCollection, IServiceCollection, IConfiguration> configureServices)
             where THostInterface : class, IHostInterface
         {
             if (!_registeredModes.Add(alias))
@@ -46,7 +46,7 @@ namespace DaisyFx
             return this;
         }
 
-        public DaisyServiceCollection AddChain<TChainBuilder>()
+        public IDaisyServiceCollection AddChain<TChainBuilder>()
             where TChainBuilder : class, IChainBuilder
         {
             if (!_registeredChains.Add(typeof(TChainBuilder)))
@@ -59,7 +59,7 @@ namespace DaisyFx
             return this;
         }
 
-        public DaisyServiceCollection AddEventHandlerSingleton<TEventHandler>()
+        public IDaisyServiceCollection AddEventHandlerSingleton<TEventHandler>()
             where TEventHandler : class, IDaisyEventHandler
         {
             var handlerType = typeof(TEventHandler);

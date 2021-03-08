@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddDaisy(this IServiceCollection serviceCollection,
             IConfiguration configuration,
-            Action<DaisyServiceCollection> configureDaisy)
+            Action<IDaisyServiceCollection> configureDaisy)
         {
             var hostMode = configuration.GetValue<string>("daisy:mode")?.ToLower() ?? "service";
 
