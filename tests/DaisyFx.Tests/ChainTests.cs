@@ -293,7 +293,7 @@ namespace DaisyFx.Tests
                 result is
                 {
                     Status: ExecutionResultStatus.Faulted,
-                    Exception: ConnectorException
+                    Exception: ChainException
                     {
                         InnerException: TestException,
                         Connector: {} connector,

@@ -82,7 +82,7 @@ namespace DaisyFx.Tests.Events
                 e => e.Result is
                 {
                     Status: ExecutionResultStatus.Faulted,
-                    Exception: ConnectorException
+                    Exception: ChainException
                 });
         }
     }

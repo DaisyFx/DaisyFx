@@ -35,9 +35,9 @@ namespace DaisyFx.Connectors
                 context.CancellationToken.ThrowIfCancellationRequested();
                 result = await ProcessAsync(input, context);
             }
-            catch (Exception e) when (e is not ConnectorException)
+            catch (Exception e) when (e is not ChainException)
             {
-                throw new ConnectorException($"{Name} failed", e, this);
+                throw new ChainException($"{Name} failed", e, this);
             }
             finally
             {
