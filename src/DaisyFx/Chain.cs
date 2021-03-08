@@ -116,7 +116,7 @@ namespace DaisyFx
                     Environment.Exit(2013);
                 }
 
-                return ExecutionResult.Faulted(e);
+                throw;
             }
         }
 
@@ -140,7 +140,7 @@ namespace DaisyFx
                 await _root.ProcessAsync(input, context);
                 return ExecutionResult.Completed;
             }
-            catch(Exception exception)
+            catch(ChainException exception)
             {
                 return ExecutionResult.Faulted(exception);
             }
