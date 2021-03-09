@@ -2,9 +2,6 @@
 using DaisyFx.Events;
 using DaisyFx.Hosting;
 using DaisyFx.Sources.Http;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using System;
 
@@ -27,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
             serviceCollection.AddSingleton(typeof(EventHandlerCollection<>));
             serviceCollection.AddHostedService(s =>
             {
-                if (s.GetService<IHostInterface>() is {} hostInterface)
+                if (s.GetService<IHostInterface>() is { } hostInterface)
                     return hostInterface;
 
                 return hostMode switch
@@ -39,23 +36,6 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             return serviceCollection;
-        }
-
-        public static IEndpointConventionBuilder MapDaisy(this IEndpointRouteBuilder builder, string routePrefix = "daisy")
-        {
-            return builder.MapPost($"{routePrefix}/{{chainName}}", async context =>
-            {
-                if (context.Request.RouteValues.TryGetValue("chainName", out var chainName) &&
-                    chainName is string chainNameString)
-                {
-                    var router = context.RequestServices.GetRequiredService<HttpChainRouter>();
-                    await router.Route(context, chainNameString);
-                }
-                else
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                }
-            });
         }
     }
 }
