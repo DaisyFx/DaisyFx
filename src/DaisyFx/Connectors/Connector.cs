@@ -35,10 +35,9 @@ namespace DaisyFx.Connectors
                 context.CancellationToken.ThrowIfCancellationRequested();
                 result = await ProcessAsync(input, context);
             }
-            catch (Exception exception)
+            catch (Exception e) when (e is not ChainException)
             {
-                context.SetResult(ExecutionResult.Faulted, exception);
-                return;
+                throw new ChainException($"{Name} failed", e, this);
             }
             finally
             {
@@ -46,10 +45,7 @@ namespace DaisyFx.Connectors
                 context.EventBroker.Publish(new ConnectorStoppedEvent(context, this, duration));
             }
 
-            if (context.Result == ExecutionResult.Unknown)
-            {
-                await _nextConnector.ProcessAsync(result, context);
-            }
+            await _nextConnector.ProcessAsync(result, context);
         }
 
         protected abstract ValueTask<TOutput> ProcessAsync(TInput input, ChainContext context);

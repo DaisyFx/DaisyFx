@@ -18,12 +18,6 @@ namespace DaisyFx
             return parent.Link(connector);
         }
 
-        public static void Complete<T>(this IConnectorLinker<T> parent, string reason)
-        {
-            var connector = new CompletionConnector<T>(reason, parent.Context);
-            parent.Link(connector);
-        }
-
         public static IConnectorLinker<T> If<T>(this IConnectorLinker<T> parent, Predicate<T> predicate, Action<IConnectorLinker<T>> buildChain)
         {
             var connector = new ConditionalSubChainConnector<T>(predicate, buildChain, parent.Context);

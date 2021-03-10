@@ -18,9 +18,7 @@ namespace DaisyFx.Samples.KitchenSink
 
         public override void ConfigureRootConnector(IConnectorLinker<string> root)
         {
-            root.If(string.IsNullOrEmpty, _ => _
-                    .Complete("Payload is empty"))
-                .SubChain(subChain => subChain
+            root.SubChain(subChain => subChain
                     .Link<GenerateArray, int[]>("GenerateArray")
                     .Each(each => each
                         .If(IsDivisibleBy3, then => then

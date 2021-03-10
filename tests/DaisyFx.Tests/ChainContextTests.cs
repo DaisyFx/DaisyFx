@@ -107,42 +107,6 @@ namespace DaisyFx.Tests
             Assert.True(item.Disposed);
         }
 
-        [Theory]
-        [InlineData(ExecutionResult.Completed, LogLevel.Information)]
-        [InlineData(ExecutionResult.Faulted, LogLevel.Error)]
-        public void SetResult_Logs(ExecutionResult status, LogLevel logLevel)
-        {
-            const string reason = "TestReason";
-            var logSink = new TestLogSink();
-            var context = CreateChainContext(logSink: logSink);
-
-            context.SetResult(status, null, reason);
-
-            Assert.Contains(logSink.LogEntries,
-                e => e.LogLevel == logLevel &&
-                     e.Message.Contains(reason));
-        }
-
-        [Fact]
-        public void SetResult_ToUnknown_Throws()
-        {
-            var logSink = new TestLogSink();
-            var context = CreateChainContext(logSink: logSink);
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => context.SetResult(ExecutionResult.Unknown));
-        }
-
-        [Fact]
-        public void SetResult_CalledTwice_Throws()
-        {
-            var logSink = new TestLogSink();
-            var context = CreateChainContext(logSink: logSink);
-
-            context.SetResult(ExecutionResult.Completed);
-
-            Assert.Throws<NotSupportedException>(() => context.SetResult(ExecutionResult.Completed));
-        }
-
         private static ChainContext CreateChainContext(string name = "TestName", TestLogSink? logSink = null)
         {
             var serviceProvider = new TestServiceProvider(

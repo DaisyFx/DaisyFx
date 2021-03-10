@@ -1,16 +1,14 @@
-using System;
-
 namespace DaisyFx.Events.Chain
 {
     public class ChainExceptionEvent : IDaisyEventAsync
     {
-        public ChainExceptionEvent(IReadOnlyChainContext context, Exception exception)
+        public ChainExceptionEvent(IReadOnlyChainContext context, ChainException exception)
         {
             Context = context;
             Exception = exception;
         }
 
         public IReadOnlyChainContext Context { get; }
-        public Exception Exception { get; }
+        public ChainException Exception { get; }
     }
 }
