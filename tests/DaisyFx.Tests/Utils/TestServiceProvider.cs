@@ -12,7 +12,7 @@ namespace DaisyFx.Tests.Utils
         private readonly ServiceProvider _serviceProvider;
 
         public TestServiceProvider(
-            Action<DaisyServiceCollection>? configureDaisy = null,
+            Action<IDaisyServiceCollection>? configureDaisy = null,
             Action<IServiceCollection>? configureServices = null,
             IEnumerable<(string key, string value)>? configurations = null)
         {
