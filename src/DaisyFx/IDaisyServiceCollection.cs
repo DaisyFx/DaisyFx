@@ -11,14 +11,14 @@ namespace DaisyFx
         public IServiceCollection ServiceCollection { get; }
         public IConfiguration Configuration { get; }
 
-        DaisyServiceCollection AddHostMode<THostInterface>(string alias,
-            Action<DaisyServiceCollection, IServiceCollection, IConfiguration> configureServices)
+        IDaisyServiceCollection AddHostMode<THostInterface>(string alias,
+            Action<IDaisyServiceCollection, IServiceCollection, IConfiguration> configureServices)
             where THostInterface : class, IHostInterface;
 
-        DaisyServiceCollection AddChain<TChainBuilder>()
+        IDaisyServiceCollection AddChain<TChainBuilder>()
             where TChainBuilder : class, IChainBuilder;
 
-        DaisyServiceCollection AddEventHandlerSingleton<TEventHandler>()
+        IDaisyServiceCollection AddEventHandlerSingleton<TEventHandler>()
             where TEventHandler : class, IDaisyEventHandler;
     }
 }
