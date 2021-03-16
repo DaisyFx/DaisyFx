@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+## 0.0.4
 ### Breaking Changes
 
 - Expand `ExecutionResult` ([#11](https://github.com/DaisyFx/DaisyFx/pull/11))
