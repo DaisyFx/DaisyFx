@@ -132,7 +132,7 @@ Connectors are the steps that form a chain. Created using a fluent builder, they
 
 ### ChainContext
 
-The ChainContext is a control interface that provides access to a per-execution scoped data collection, utilities and manipulation of the execution itself. The data collection allows steps to communicate without having to flow the data as input / output through the chain. The collection items are discarded and disposed after the execution is done.
+The ChainContext is a control interface that provides access to a per-execution scoped data collection, utilities and manipulation of the execution itself. The data collection allows steps to communicate without having to flow the data as input / output through the chain. The collection items are discarded after the execution is done.
 
 #### Set
 
@@ -151,6 +151,15 @@ if(context.TryGet("Foo", out string fooValue))
 {
     context.Logger.LogInformation(fooValue);
 }
+```
+
+#### RegisterForDispose and RegisterForDisposeAsync
+
+Registers an instance of `IDisposable` or `IAsyncDisposable` that should be disposed after the current scope is completed
+
+```
+context.RegisterForDispose(disposable);
+context.RegisterForDisposeAsync(asyncDisposable);
 ```
 
 #### Logger
