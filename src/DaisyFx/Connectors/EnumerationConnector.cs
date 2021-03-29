@@ -20,7 +20,15 @@ namespace DaisyFx.Connectors
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
 
+                var onCompleteCountBefore = context.OnComplete.Count;
+
                 await _connector.ProcessAsync(input[i], context);
+
+                for (var _ = context.OnComplete.Count; _ > onCompleteCountBefore; _--)
+                {
+                    var (callback, state) = context.OnComplete.Pop();
+                    await callback(state);
+                }
             }
 
             return input;

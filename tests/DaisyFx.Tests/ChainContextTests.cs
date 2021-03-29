@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using DaisyFx.Tests.Utils;
 using DaisyFx.Tests.Utils.Logging;
 using Microsoft.Extensions.DependencyInjection;
@@ -96,16 +97,20 @@ namespace DaisyFx.Tests
         }
 
         [Fact]
-        public void Dispose_DisposesItems()
+        public async Task Dispose_DisposesRegisterForDisposeRegistrations()
         {
-            var item = new FakeItem();
-            using (var context = CreateChainContext())
+            var fakeDisposable = new FakeDisposable();
+            var fakeAsyncDisposable = new FakeAsyncDisposable();
+            await using (var context = CreateChainContext())
             {
-                context.Set("TestKey", item);
+                context.RegisterForDispose(fakeDisposable);
+                context.RegisterForDisposeAsync(fakeAsyncDisposable);
             }
 
-            Assert.True(item.Disposed);
+            Assert.True(fakeDisposable.Disposed);
+            Assert.True(fakeAsyncDisposable.Disposed);
         }
+
 
         private static ChainContext CreateChainContext(string name = "TestName", TestLogSink? logSink = null)
         {
@@ -120,16 +125,6 @@ namespace DaisyFx.Tests
             );
 
             return new ChainContext(name, serviceProvider, CancellationToken.None);
-        }
-
-        private class FakeItem : IDisposable
-        {
-            public bool Disposed { get; private set; }
-
-            public void Dispose()
-            {
-                Disposed = true;
-            }
         }
     }
 }
