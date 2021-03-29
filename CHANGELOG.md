@@ -1,6 +1,19 @@
 # Changelog
 
 ## Unreleased
+### Breaking Changes
+- Add RegisterForDispose and RegisterForDisposeAsync on ChainContext
+
+Previously values added by calling `ChainContext.Set(key, value)` was disposed if the value implemented `IDisposable`,
+this has been removed and you are instead expected to call `ChainContext.RegisterForDispose(item)` or `ChainContext.RegisterForDisposeAsync(item)`
+depending on if the item implements `IDisposable` or `IAsyncDisposable`.
+
+- Dispose registered items after current scope is completed
+
+All items registered for dispose on the ChainContext in an `.Each(each => each..)` is now disposed after each enumeration, 
+similarly for `.SubChain(subChain => subChain..)` and `.If(_ => ..., then => then..)` the dispose happens when that scope has completed.
+
+Everything registered in the root scope is disposed when the chain execution completes before returning the result.
 
 ## 0.0.4
 ### Breaking Changes
