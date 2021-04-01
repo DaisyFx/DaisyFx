@@ -23,9 +23,11 @@ namespace DaisyFx.NCrontab
             {
                 var nextOccurrence = _cron.GetNextOccurrence(DateTime.UtcNow);
                 var timeUntilNextOccurrence = nextOccurrence - DateTime.UtcNow;
-                var waitUntilNextOccurrenceTask = Task.Delay(timeUntilNextOccurrence, cancellationToken);
+                // Round up to nearest whole second as waiting with a sub-second resolution is unreliable
+                var delay = TimeSpan.FromSeconds(Math.Ceiling(timeUntilNextOccurrence.TotalSeconds));
+                var waitUntilNextOccurrenceTask = Task.Delay(delay, cancellationToken);
 
-                _logger.Waiting(timeUntilNextOccurrence);
+                _logger.Waiting(delay);
                 await waitUntilNextOccurrenceTask;
 
                 await next(Signal.Static);
