@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased
+### Bug Fixes
+
+- Fix edge case with NCrontabSource wait duration ([#15](https://github.com/DaisyFx/DaisyFx/pull/15))
+
 
 ## 0.0.4
 ### Breaking Changes
