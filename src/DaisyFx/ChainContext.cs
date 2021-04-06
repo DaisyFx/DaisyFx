@@ -88,8 +88,6 @@ namespace DaisyFx
 
         async ValueTask IAsyncDisposable.DisposeAsync()
         {
-            _serviceScope.Dispose();
-
             if (_lazyItemsCollection.IsValueCreated)
             {
                 _lazyItemsCollection.Value.Clear();
@@ -99,6 +97,8 @@ namespace DaisyFx
             {
                 await disposable.callback(disposable.state);
             }
+
+            _serviceScope.Dispose();
         }
     }
 }
