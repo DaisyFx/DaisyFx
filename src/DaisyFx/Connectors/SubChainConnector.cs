@@ -18,7 +18,7 @@ namespace DaisyFx.Connectors
 
             await _connector.ProcessAsync(input, context);
 
-            for (var _ = context.OnComplete.Count; _ > onCompleteCountBefore; _--)
+            while(context.OnComplete.Count > onCompleteCountBefore)
             {
                 var (callback, state) = context.OnComplete.Pop();
                 await callback(state);
