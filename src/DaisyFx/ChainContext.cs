@@ -86,7 +86,7 @@ namespace DaisyFx
             OnComplete.Push((DisposeDelegate, disposable));
         }
 
-        public async ValueTask DisposeAsync()
+        async ValueTask IAsyncDisposable.DisposeAsync()
         {
             _serviceScope.Dispose();
 
