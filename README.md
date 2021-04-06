@@ -50,7 +50,31 @@ public class ExampleChain : ChainBuilder<Signal>
 dotnet add package DaisyFx
 ```
 
-2. Define a chain
+2. Define links
+
+```csharp
+public class GenerateGuid : StatelessLink<Signal, Guid>
+{
+    protected override ValueTask<Guid> ExecuteAsync(Signal input, ChainContext context)
+    {
+        return new(Guid.NewGuid());
+    }
+}
+```
+
+```csharp
+public class WriteToConsole : StatelessLink<Guid, Signal>
+{
+    protected override ValueTask<Signal> ExecuteAsync(Guid input, ChainContext context)
+    {
+        Console.WriteLine(input);
+        return Signal.Static;
+    }
+}
+```
+
+
+3. Define chain
 
 ```csharp
 public class ExampleChain : ChainBuilder<Signal>
@@ -59,21 +83,18 @@ public class ExampleChain : ChainBuilder<Signal>
 
     public override void ConfigureSources(SourceConnectorCollection<Signal> sources)
     {
-        sources.Add<NCrontabSource, Signal>("Cron");
+        sources.Add<TriggerOnStartupSource>("TriggerOnStartup");
     }
 
     public override void ConfigureRootConnector(IConnectorLinker<Signal> root)
     {
-        root.Map(_ => 
-            {
-                Console.WriteLine("Creating string");
-                return "Hey";
-            });
+        root.Link<GenerateGuid, Guid>()
+            .Link<WriteToConsole, Signal>();
     }
 }
 ```
 
-3. Register in ServiceCollection
+4. Register in ServiceCollection
 
 ```csharp
 services.AddDaisy(Configuration, d =>
@@ -270,7 +291,7 @@ public static class DivisionSubChain
 
 A control flow which executes the sub-chain if the predicate evaluates to true.
 
-```
+```csharp
 root.If(IsDivisibleBy3, then => then
         .Map(_ => "Value was divisible by 3")
         .Link<ConsoleWriteLine, string>());
