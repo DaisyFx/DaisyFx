@@ -13,15 +13,15 @@ namespace DaisyFx.Logging
         static SourceConnectorLogMessages()
         {
             SourceCompletedMessage = LoggerMessage.Define<string>(
-                LogLevel.Information, new EventId(1, nameof(SourceCompletedMessage)),
+                LogLevel.Information, EventIds.SourceCompletedMessage,
                 "Source {SourceName} completed");
 
             SourceCanceledMessage = LoggerMessage.Define<string>(
-                LogLevel.Warning, new EventId(2, nameof(SourceCanceledMessage)),
+                LogLevel.Warning, EventIds.SourceCanceledMessage,
                 "Source {SourceName} canceled");
 
             SourceFatalErrorMessage = LoggerMessage.Define<string>(
-                LogLevel.Critical, new EventId(3, nameof(SourceFatalErrorMessage)),
+                LogLevel.Critical, EventIds.SourceFatalErrorMessage,
                 "Source {SourceName} crashed");
         }
 

@@ -14,22 +14,22 @@ namespace DaisyFx.Logging
         {
             RequestingLockMessage = LoggerMessage.Define(
                 LogLevel.Trace,
-                new EventId(1, nameof(RequestingLockMessage)),
+                EventIds.RequestingLockMessage,
                 "Requesting lock");
 
             ExecutingMessage = LoggerMessage.Define(
                 LogLevel.Trace,
-                new EventId(2, nameof(ExecutingMessage)),
+                EventIds.ExecutingMessage,
                 "Executing");
 
             ExecutionCompletedMessage = LoggerMessage.Define(
                 LogLevel.Information,
-                new EventId(3, nameof(ExecutionCompletedMessage)),
+                EventIds.ExecutionCompletedMessage,
                 "Execution completed");
 
             ExecutionFaultedMessage = LoggerMessage.Define(
                 LogLevel.Error,
-                new EventId(4, nameof(ExecutionFaultedMessage)),
+                EventIds.ExecutionFaultedMessage,
                 "Execution faulted");
         }
 
