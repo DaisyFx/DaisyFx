@@ -22,11 +22,18 @@ namespace DaisyFx.NCrontab
             while (!cancellationToken.IsCancellationRequested)
             {
                 var nextOccurrence = _cron.GetNextOccurrence(DateTime.UtcNow);
-                var timeUntilNextOccurrence = nextOccurrence - DateTime.UtcNow;
-                var waitUntilNextOccurrenceTask = Task.Delay(timeUntilNextOccurrence, cancellationToken);
+                _logger.Waiting(nextOccurrence - DateTime.UtcNow);
 
-                _logger.Waiting(timeUntilNextOccurrence);
-                await waitUntilNextOccurrenceTask;
+                // Task.Delay is unreliable, ensure we wait until next occurrence
+                do
+                {
+                    var delay = nextOccurrence - DateTime.UtcNow;
+                    var millisecondsDelay = (int)Math.Ceiling(delay.TotalMilliseconds);
+                    if (millisecondsDelay > 0)
+                    {
+                        await Task.Delay(millisecondsDelay, cancellationToken);
+                    }
+                } while (DateTime.UtcNow < nextOccurrence);
 
                 await next(Signal.Static);
             }
