@@ -15,6 +15,10 @@ similarly for `.SubChain(subChain => subChain..)` and `.If(_ => ..., then => the
 
 Everything registered in the root scope is disposed when the chain execution completes before returning the result.
 
+### Bug Fixes
+
+- Fix edge case with NCrontabSource wait duration ([#15](https://github.com/DaisyFx/DaisyFx/pull/15))
+
 ## 0.0.4
 ### Breaking Changes
 
