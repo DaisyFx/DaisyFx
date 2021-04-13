@@ -82,7 +82,7 @@ namespace DaisyFx
             await LockStrategy.RequestLockAsync(cancellationToken);
             _logger.Executing();
 
-            using var context = new ChainContext(Name, _serviceProvider, cancellationToken);
+            await using var context = new ChainContext(Name, _serviceProvider, cancellationToken);
 
             try
             {

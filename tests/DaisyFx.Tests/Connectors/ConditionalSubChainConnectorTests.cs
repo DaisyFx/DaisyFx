@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using DaisyFx.Tests.Utils;
 using DaisyFx.Tests.Utils.Chains;
 using DaisyFx.Tests.Utils.Extensions;
 using DaisyFx.Tests.Utils.Links;
@@ -81,6 +82,28 @@ namespace DaisyFx.Tests.Connectors
             chain.Dispose();
 
             Assert.True(subChainDisposed);
+        }
+
+        [Fact]
+        public async Task Process_DisposesRegisteredDisposables()
+        {
+            var chainDisposableCount = 0;
+            var fakeDisposable = new FakeDisposable();
+            var chainBuilder = new TestChain<Signal>
+            {
+                ConfigureRootAction = root => root
+                    .If(_ => true, then => then
+                        .TestInspect(onProcess: (_, context) => context.RegisterForDispose(fakeDisposable))
+                    )
+                    .TestInspect(onProcess: (_, context) => chainDisposableCount = context.OnComplete.Count)
+            };
+
+            var chain = await chainBuilder.BuildAsync();
+            var result = await chain.ExecuteAsync(Signal.Static, default);
+
+            Assert.Equal(ExecutionResultStatus.Completed, result.Status);
+            Assert.Equal(0, chainDisposableCount);
+            Assert.Equal(1, fakeDisposable.DisposeCount);
         }
     }
 }

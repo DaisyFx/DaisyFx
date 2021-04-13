@@ -8,7 +8,7 @@ namespace DaisyFx.TestHelpers
     {
         public async ValueTask<TOutput> ExecuteAsync(TInput input, CancellationToken ct = default)
         {
-            using var context = CreateContext(Services, ct);
+            await using var context = CreateContext(Services, ct);
             using ILink<TInput, TOutput> link = CreateLink(context.ScopeServices);
 
             return await link.ExecuteAsync(input, context);
