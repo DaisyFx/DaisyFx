@@ -93,12 +93,41 @@ namespace DaisyFx
                 _lazyItemsCollection.Value.Clear();
             }
 
+            List<Exception>? exceptions = null;
             while (OnComplete.TryPop(out var disposable))
             {
-                await disposable.callback(disposable.state);
+                try
+                {
+                    await disposable.callback(disposable.state);
+                }
+                catch (Exception e)
+                {
+                    if (exceptions == null)
+                        exceptions = new();
+
+                    exceptions.Add(e);
+                }
             }
 
-            _serviceScope.Dispose();
+            try
+            {
+                _serviceScope.Dispose();
+            }
+            catch (Exception e)
+            {
+                if (exceptions == null)
+                    throw;
+
+                exceptions.Add(e);
+            }
+
+            switch (exceptions?.Count)
+            {
+                case 1:
+                    throw exceptions[0];
+                case > 1:
+                    throw new AggregateException(exceptions);
+            }
         }
     }
 }
