@@ -11,8 +11,6 @@
 
 Daisy is a framework for building data integrations in a structured manner with minimal overhead. Integrations are implemented as series of steps where the result of each step is the input of the next. These steps are composed into strongly-typed chains using a fluent interface.
 
-**DaisyFx is in active development targeting 1.0, expect breaking changes between each 0.x release**
-
 Example of a chain:
 
 ```csharp
